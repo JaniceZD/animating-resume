@@ -98,8 +98,12 @@ var css3 = `
 wrtieCss('', css1, () => {
   createPaper(() => {
     writeMarkdown(md, () => {
-      convertMarkdownToHtml(md, () => {
+      wrtieCss(css1, css2, () => {
+        convertMarkdownToHtml(md, () => {
+          wrtieCss(css1 + css2, css3, () => {
 
+          })
+        })
       })
     })
   })
@@ -116,8 +120,8 @@ function createPaper(fn) {
 }
 function convertMarkdownToHtml(md, fn) {
   var div = document.createElement('div')
-  div.id = 'html markdown-body'
-  div.innerHTML = Prism.highlight(md, Prism.languages.markdown, 'markdown')
+  div.className = 'html markdown-body'
+  div.innerHTML = marked(md)
   let markdownContainer = document.querySelector('#paper > .content')
   markdownContainer.replaceWith(div)
   fn && fn.call()
